@@ -6,10 +6,12 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Model implements JWTSubject, AuthenticatableContract
 {
     use Authenticatable;
+    use EntrustUserTrait;
     
     /**
      * The attributes that are mass assignable.
