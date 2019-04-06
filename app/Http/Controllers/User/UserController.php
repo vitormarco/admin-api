@@ -11,6 +11,7 @@ class UserController extends Controller
     protected $repository;
 
     public function __construct() {
+        $this->middleware('auth:api');
         $this->repository = app()->make('App\Repositories\Users\UserRepositoryInterface');
     }
 
@@ -46,5 +47,15 @@ class UserController extends Controller
     public function edit(int $id) {
         $user = $this->repository->with(['roles'])->find($id);
         return response()->json($user);
+    }
+
+    public function delete(int $id) {
+        if (auth()->user()->id == $id) {
+            $msg['msg'] = 'Exclusion not allowed.';
+            return response()->json($msg, 400);
+        }
+
+        $this->repository->delete($id);
+        return response()->json('User removed successfully.');
     }
 }
