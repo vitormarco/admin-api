@@ -10,16 +10,30 @@ class UserController extends Controller
 
     protected $repository;
 
-    public function __contruct() {
+    public function __construct() {
         $this->repository = app()->make('App\Repositories\Users\UserRepositoryInterface');
     }
 
     public function all() {
-        dd($this->repository);
         $users = $this->repository->with(['roles'])
             ->orderby('created_at', 'desc')
             ->all();
 
         return response()->json($users);
+    }
+
+    public function create(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            'roles' => 'required',
+        ]);
+
+        $data = $request->all();
+        $user = $this->repository->create($data);
+
+        return response()->json($user);
     }
 }

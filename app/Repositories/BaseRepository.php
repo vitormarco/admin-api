@@ -70,4 +70,14 @@ abstract class BaseRepository
         $this->model = $this->model->orderBy($orderBy[0], isset($orderBy[1]) ? $orderBy[1] : 'asc');
         return $this;
     }
+
+    public function with($relations)
+    {
+        if (is_string($relations)) {
+            $relations = func_get_args();
+        }
+
+        $this->model = $this->model->with($relations);
+        return $this;
+    }
 }
