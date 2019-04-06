@@ -12,34 +12,31 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $this->model = app()->make('App\Models\User');
     }
 
-    public function create(array $data)
-    {
+    public function create(array $data) {
 
         $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-        $usuario = $this->model->create($data);
+        $user = $this->model->create($data);
 
         foreach ($data['roles'] as $role) {
-            $r = Role::find($role['id']);
-            if ($r) {
+            $roles = Role::find($role['id']);
+            if ($roles) {
                 $usuario->roles()->attach($r);
             }
         }
 
-        return $usuario;
+        return $user;
     }
 
-    public function getByRole(string $name)
-    {
+    public function getByRole(string $name) {
         $users = $this->model->whereHas('roles', function ($q) use ($name) {
             $q->where('name', $name);
         })->get();
         return $users;
     }
 
-    public function update(int $id, array $data)
-    {
+    public function update(int $id, array $data) {
 
-        $usuario = $this->model->find($id);
+        $user = $this->model->find($id);
 
         if (empty($data['password']) || is_null($data['password'])) {
             $data['password'] = $usuario->password;
@@ -47,17 +44,17 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
         }
 
-        $usuario->update($data);
+        $user->update($data);
 
         foreach ($data['roles'] as $role) {
-            $r = Role::find($role['id']);
-            if ($r) {
-                $usuario->roles()->detach();
-                $usuario->roles()->attach($r);
+            $roles = Role::find($role['id']);
+            if ($roles) {
+                $user->roles()->detach();
+                $user->roles()->attach($roles);
             }
         }
 
-        return $usuario;
+        return $user;
     }
 
 }

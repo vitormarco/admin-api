@@ -22,8 +22,7 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function create(Request $request)
-    {
+    public function create(Request $request) {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users',

@@ -21,5 +21,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
 
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', 'User\UserController@all')->name('all');
+        Route::post('/create', 'User\UserController@create')->name('create');
     });
 });
