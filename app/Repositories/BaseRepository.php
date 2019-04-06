@@ -6,33 +6,27 @@ abstract class BaseRepository
 {
     protected $model;
 
-    public function all()
-    {
+    public function all() {
         return $this->model->get();
     }
 
-    public function find(int $id)
-    {
+    public function find(int $id) {
         return $this->model->find($id);
     }
 
-    public function findBy(string $attribute, string $value)
-    {
+    public function findBy(string $attribute, string $value) {
         return $this->model->where($attribute, '=', $value)->first();
     }
 
-    public function findAllBy(string $attribute, string $value)
-    {
+    public function findAllBy(string $attribute, string $value) {
         return $this->model->where($attribute, '=', $value)->get();
     }
 
-    public function paginate(int $page = 10)
-    {
+    public function paginate(int $page = 10) {
         return $this->model->paginate($page);
     }
 
-    public function create(array $data)
-    {
+    public function create(array $data) {
         try {
             $model = $this->model->create($data);
             $model = $model->fresh();
@@ -42,8 +36,7 @@ abstract class BaseRepository
         }
     }
 
-    public function createOrUpdate(array $data)
-    {
+    public function createOrUpdate(array $data) {
         try {
             $model = $this->model->firstOrNew(['id' => @$data['id']]);
             $model->fill($data)->save();
@@ -53,8 +46,7 @@ abstract class BaseRepository
         }
     }
 
-    public function update(int $id, array $data)
-    {
+    public function update(int $id, array $data) {
         $m = $this->model->findOrFail($id);
         if ($m->update($data)) {
             return $m;
@@ -62,8 +54,7 @@ abstract class BaseRepository
         return false;
     }
 
-    public function delete(int $id)
-    {
+    public function delete(int $id) {
         try {
             return $this->model->find($id)->delete();
         } catch (\Exception $ex) {
@@ -71,8 +62,7 @@ abstract class BaseRepository
         }
     }
 
-    public function orderBy($orderBy)
-    {
+    public function orderBy($orderBy) {
         if (is_string($orderBy)) {
             $orderBy = func_get_args();
         }
