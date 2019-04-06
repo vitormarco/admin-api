@@ -20,18 +20,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         foreach ($data['roles'] as $role) {
             $roles = Role::find($role['id']);
             if ($roles) {
-                $usuario->roles()->attach($r);
+                $user->roles()->attach($roles);
             }
         }
 
         return $user;
-    }
-
-    public function getByRole(string $name) {
-        $users = $this->model->whereHas('roles', function ($q) use ($name) {
-            $q->where('name', $name);
-        })->get();
-        return $users;
     }
 
     public function update(int $id, array $data) {
@@ -39,7 +32,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $user = $this->model->find($id);
 
         if (empty($data['password']) || is_null($data['password'])) {
-            $data['password'] = $usuario->password;
+            $data['password'] = $user->password;
         } else {
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
         }

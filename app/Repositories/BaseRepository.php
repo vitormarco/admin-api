@@ -47,9 +47,9 @@ abstract class BaseRepository
     }
 
     public function update(int $id, array $data) {
-        $m = $this->model->findOrFail($id);
-        if ($m->update($data)) {
-            return $m;
+        $update_this = $this->model->findOrFail($id);
+        if ($update_this->update($data)) {
+            return $update_this;
         }
         return false;
     }

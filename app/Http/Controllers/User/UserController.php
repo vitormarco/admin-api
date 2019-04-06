@@ -35,4 +35,10 @@ class UserController extends Controller
 
         return response()->json($user);
     }
+
+    public function update(Request $request, $id) {
+        $data = $request->all();
+        $user = $this->repository->update($id, $data);
+        return response()->json($user);
+    }
 }
