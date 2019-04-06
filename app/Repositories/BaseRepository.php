@@ -71,8 +71,7 @@ abstract class BaseRepository
         return $this;
     }
 
-    public function with($relations)
-    {
+    public function with($relations) {
         if (is_string($relations)) {
             $relations = func_get_args();
         }
