@@ -50,9 +50,4 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $user;
     }
 
-    public function edit(int $id) {
-        $user = $this->repository->with(['roles'])->find($id);
-        return response()->json($user);
-    }
-
 }

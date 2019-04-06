@@ -41,4 +41,10 @@ class UserController extends Controller
         $user = $this->repository->update($id, $data);
         return response()->json($user);
     }
+
+    
+    public function edit(int $id) {
+        $user = $this->repository->with(['roles'])->find($id);
+        return response()->json($user);
+    }
 }
